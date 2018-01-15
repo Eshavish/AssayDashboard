@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hologic.AssayDashboard.WebAPI", "Hologic.AssayDashboard.WebAPI\Hologic.AssayDashboard.WebAPI.csproj", "{05DE6E5A-BB01-4E28-B9EE-274690100A07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hologic.AssayDashboard.UnitTest", "Hologic.AssayDashboard.UnitTest\Hologic.AssayDashboard.UnitTest.csproj", "{94042D19-2C2D-4D28-8CD5-EDE33A28D6FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hologic.AssayDashboard.Database", "Hologic.AssayDashboard.Database\Hologic.AssayDashboard.Database.csproj", "{66E54F1F-4D8E-40BC-B187-1789C99FA735}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hologic.AssayDashboard.Domain", "Hologic.AssayDashboard.Domain\Hologic.AssayDashboard.Domain.csproj", "{5CDE50CA-B50C-44B1-81E4-419A8AFE4A3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hologic.AssayDashboard.AssayParser", "Hologic.AssayDashboard.AssayParser\Hologic.AssayDashboard.AssayParser.csproj", "{9AB012D4-058D-47DF-B9CB-DF53FF108A2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hologic.AssayDashboard.RunParser", "Hologic.AssayDashboard.RunParser\Hologic.AssayDashboard.RunParser.csproj", "{3BE81B5F-4BEF-4F7F-88B9-C6FDBCCA42B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05DE6E5A-BB01-4E28-B9EE-274690100A07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05DE6E5A-BB01-4E28-B9EE-274690100A07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05DE6E5A-BB01-4E28-B9EE-274690100A07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05DE6E5A-BB01-4E28-B9EE-274690100A07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94042D19-2C2D-4D28-8CD5-EDE33A28D6FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94042D19-2C2D-4D28-8CD5-EDE33A28D6FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94042D19-2C2D-4D28-8CD5-EDE33A28D6FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94042D19-2C2D-4D28-8CD5-EDE33A28D6FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66E54F1F-4D8E-40BC-B187-1789C99FA735}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66E54F1F-4D8E-40BC-B187-1789C99FA735}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66E54F1F-4D8E-40BC-B187-1789C99FA735}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66E54F1F-4D8E-40BC-B187-1789C99FA735}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CDE50CA-B50C-44B1-81E4-419A8AFE4A3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CDE50CA-B50C-44B1-81E4-419A8AFE4A3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CDE50CA-B50C-44B1-81E4-419A8AFE4A3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CDE50CA-B50C-44B1-81E4-419A8AFE4A3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AB012D4-058D-47DF-B9CB-DF53FF108A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AB012D4-058D-47DF-B9CB-DF53FF108A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AB012D4-058D-47DF-B9CB-DF53FF108A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB012D4-058D-47DF-B9CB-DF53FF108A2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BE81B5F-4BEF-4F7F-88B9-C6FDBCCA42B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE81B5F-4BEF-4F7F-88B9-C6FDBCCA42B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BE81B5F-4BEF-4F7F-88B9-C6FDBCCA42B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE81B5F-4BEF-4F7F-88B9-C6FDBCCA42B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3AD7B51-C346-48FB-8AEB-D3535050F670}
+	EndGlobalSection
+EndGlobal

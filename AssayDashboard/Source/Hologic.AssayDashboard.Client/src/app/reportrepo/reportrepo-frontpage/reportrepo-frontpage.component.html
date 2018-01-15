@@ -1,0 +1,52 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+
+<div class="area"></div>
+<nav class="main-menu">
+  <ul>
+    
+    <li>
+      <a [routerLinkActive]="['active']" [routerLink]="['/dashboard']">
+        <i class="fa fa-home fa-5x"></i>
+        <span class="nav-text">
+          Dashboard
+        </span>
+      </a>
+    </li>
+
+    <li class="has-subnav">
+      <a [routerLinkActive]="['active']" [routerLink]="['./upload']">
+        <i id="uploadClick" class="fa fa-cloud-upload" aria-hidden="true"></i>
+        <span class="nav-text">
+          Upload Files
+        </span>
+      </a>
+    </li>
+
+    <li class="has-subnav">
+      <a [routerLinkActive]="['active']" [routerLink]="['./download']">
+        <i class="fa fa-download" aria-hidden="true"></i>
+        <span class="nav-text">
+          Download Files
+        </span>
+      </a>
+    </li>
+
+  </ul>
+
+  <ul class="logout">
+    <li>
+      <a href="#">
+        <i class="fa fa-power-off fa-2x"></i>
+        <span class="nav-text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

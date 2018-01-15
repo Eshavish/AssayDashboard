@@ -1,0 +1,292 @@
+/*
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+*/ 
+.container{
+  float:left;
+  height:500px;
+  overflow: auto
+ }
+  
+.uploaddiv{
+  padding:20px;
+  margin-top:-50px;
+  position: relative;
+  top: 70px; 
+}
+.wrap-scroll {
+  max-height:70vh;  
+  overflow-y: auto;
+
+thead, tbody > tr {
+  width: 100%;
+  table-layout: fixed;
+  }
+}
+
+  .responsive-table {
+    width: 100%;
+    margin: 0em auto;
+    margin-bottom: .5em; 
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
+    table-layout: auto;
+
+  tr:nth-of-type(odd) {
+    background-color: #F8FbFF;
+  }
+
+  th, td {
+    padding: .7em;
+    white-space: nowrap;
+  }
+
+  th {
+  font-size: 16px;
+  background: #1E88E5;
+  color: white;
+  border: 1px solid #ddd;
+  padding: .5em;
+  }
+
+  tr {
+    border: 1px solid #ddd;
+  }
+
+  tr:hover {
+    background-color: #D9F2FF;
+  }
+
+  @media (max-width: 1000px) {
+    border: 0;
+    thead {
+      display: none;
+    }
+
+    td {
+      padding: .5em;
+      display: block;
+      text-align: right;
+      border-bottom: 1px solid #ddd;
+      width:100%;
+
+      &:before {
+        content: attr(date-title);
+        float: left;
+        font-weight: 700;
+      }
+
+      &:last-child {
+        border: 0;
+      }
+    }
+
+    tr {
+      padding: 4px;
+      margin: 0 0 15px 0;
+      display: block;
+      border-radius: 4px;
+      > td:nth-of-type(9) {
+        font-size: 14px;
+        color: #DF2B2B;
+      }
+    }
+  }
+}
+
+// non table code for scss 
+#systemsoftwareinnerfields{
+display: inline-block;
+}
+
+#majorVersion{
+-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+border-radius: 10px;
+width: 50px;
+}
+#minorVersion{
+-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+border-radius: 10px;
+width: 50px;
+}
+
+#servicePackageNumber{
+-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+border-radius: 10px;
+width: 50px;
+}
+
+#buildNumber{
+-webkit-border-radius: 50px;
+-moz-border-radius: 50px;
+border-radius: 10px;
+width: 50px;
+}
+
+#viewArea{
+ cursor: pointer;
+}
+
+#downloadArea{
+ cursor: pointer;
+}
+
+#downloadheader{
+  text-align:left;
+  font-family: "Times New Roman";
+  size: 20px;
+}
+
+    .fixed-table-container{
+      width: 90%;
+      border-radius: 3px;
+      border: 1px solid #DCDCDC;
+      background-color: white;
+      /* above is decorative or flexible */
+      position: relative; /* could be absolute or relative */
+      padding-top: 30px; /* height of header */
+    }
+
+    .fixed-table-container-inner {
+      padding:10px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 300px;
+    }
+     
+    .header-background {
+       background-color: 	#1E88E5;
+      height: 30px; /* height of header */
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+    }
+
+    h5{
+      font-family: "Times New Roman";
+    }
+
+    table {
+      background-color: white;
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .th-inner {
+      color:white;
+      position: absolute;
+      font-family: "Times New Roman";
+      top: 0;
+      line-height: 30px; /* height of header */
+      text-align: center;
+     // border-left: 1px solid black;
+      padding:1px;
+     // padding-left: 5px;
+      margin-left: -5px;
+    }
+    .first .th-inner {
+        color: white;
+        border-left: none;
+        font-family: "Times New Roman";
+        padding-left: 6px;
+      }
+      .list-group-item{
+        border: none;
+      }
+
+      .container-ssv{
+      margin-left:0px;
+      }
+#assaySelect{
+  font-family: "Open Sans";
+  font-size: 16px;
+   width:30%;
+}
+#reportSelect{
+    font-family: "Open Sans";
+  font-size: 16px;
+  width:30%;
+}
+.searchRestore{
+  display: inline-block;
+  width:auto;
+  color:#1E88E5
+}
+ #reportheader{
+  size:10px;
+  font-weight: bold;
+      }
+
+ @media (max-width: 2000px) {
+  .downloaddiv {
+      margin-left:20px;
+  }
+}
+
+ .downloaddiv{
+     padding: 30px;
+    width:100%;
+      }
+
+.inner-div
+{
+  padding:2px;
+  margin: 0 auto;
+  width:100%;
+  height: 100%;
+  border-radius: 3px;
+}
+
+#view{
+  float:left;
+  background-color: #1E88E5;
+}
+#reset{
+  float: right;
+   background-color: #1E88E5;
+}
+
+  .holder-div-download-options{
+      width:100%;
+      height:100%;
+    }
+    
+    .wildcardinput{
+      width:35%;
+      float:right;
+    }
+  .checkboxes{
+      padding:12px;
+      width:100%;
+      border:1px solid black;
+      border-style: solid;
+      border-radius: 5px;
+  }
+
+  .inner-option-container{
+    padding:2px;
+}
+
+  input[type=checkbox] {
+    transform: scale(2);
+    -ms-transform: scale(2);
+    -webkit-transform: scale(2);
+    padding: 8px;
+}
+
+.buttonsDownload{
+   padding: 200px 0 0 0; 
+}
+
+  .buttons{
+  position: relative;
+   float: left;
+    padding:10px;
+  }

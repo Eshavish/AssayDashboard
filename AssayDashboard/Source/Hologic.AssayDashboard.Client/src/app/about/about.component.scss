@@ -1,0 +1,56 @@
+
+.img-fluid{
+    max-width: 100%;
+    padding:20px;
+    height: auto;
+}
+
+.container{
+    text-align: center;
+    width:100%;
+    height:100%;
+    //background-color:  #F3F3F3;
+}
+
+.assaydashboard-text{
+font-family: 'Times New Roman', Times, serif;
+font-size: 16px;
+text-align: justify;
+text-justify: inter-word;
+}
+
+.text-info{
+font-family: 'Times New Roman', Times, serif;
+font-size: 15px;
+text-align: left;
+text-justify: inter-word;
+}
+
+.video{
+    padding: 20px;
+    width:100%;
+    height:100%;
+}
+#header-text{
+font-family: inherit;
+//font-size: 25px;
+}
+.paragraph-text{
+    text-align:center;
+  
+}
+
+li span{
+    position: relative; 
+    left: 10px;
+}
+
+.bullet-points{
+      width:500px;
+    margin:0 auto;
+    text-align:left;
+}
+.text-container{
+    padding:20px;
+
+}

@@ -1,0 +1,140 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<div class="area"></div>
+<nav class="main-menu">
+    <ul>
+      <li>
+        <a  [routerLinkActive]="['active']"  [routerLink]="['/dashboard']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/homeicon.png" />
+          </i>
+          <span class="nav-text">
+              Dashboard
+          </span>
+        </a>
+      </li>
+      <li class="has-subnav" style="background-color: #272B68 !important;">
+        <a  [routerLinkActive]="['active']"  [routerLink]="['/upload']" >
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/uploadicon_white.png" />
+          </i>
+          <span class="nav-text">
+            Upload
+          </span>
+        </a>
+  
+      </li>
+      <li class="has-subnav">
+        <a  [routerLinkActive]="['active']"  [routerLink]="['/download']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/viewer.png" />
+          </i>
+          <span class="nav-text">
+            Download
+          </span>
+        </a>
+      </li>
+      <li class="has-subnav">
+        <a  [routerLinkActive]="['active']" [routerLink]="['/view']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/stat.png" />
+          </i>
+          <span class="nav-text">
+            View Curve
+          </span>
+        </a>
+      </li>
+      <li class="has-subnav">
+        <a  [routerLinkActive]="['active']" [routerLink]="['/stat']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/statistics.png" />
+          </i>
+          <span class="nav-text">
+            Statistics
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+<body style="background-color: white;">
+  <div class="main-container">
+
+    <nav>
+      <!--choose file
+      <input type="file" title="Choose Curve file(s) to upload" (change)="stageFile($event)" id="fileUpload"
+       class="btn-ChooseFile btn btn-secondary"
+        placeholder="Choose Files" multiple>
+      -->
+        <label for="file-upload" class="custom-file-upload">
+          Choose File
+        <input id="input-upload" type="file" (change)="stageFile($event)" multiple/>
+        </label>
+      <!--clear button-->
+      <button type="button" title="Clear table" class="Clear btn btn-outline-danger" (click)="clearTableAndTag()">Clear</button>
+    </nav>
+
+    <!--table-->
+    <div class="wrap-table" style="margin-top: 1.4%;">
+      <div class="wrap-scroll" style="overflow-x: hidden;">
+        <table class="responsive-table">
+          <thead>
+            <tr class="table-head">
+              <th>File Name</th>
+              <th>Tag(s)</th>
+              <th>Assay Name</th>
+              <th>Known Curve</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let file of fileNameArray; let i = index">
+              <td date-title="File Name">
+                <font style="word-wrap: break-word;">{{file}}</font>
+              </td>
+              <td date-title="Tag(s)">
+                <input type="text" id="Tag{{i}}" [(ngModel)]="TagField[i]" (input)="valueChange($event, i)" placeholder=" Add a tag" contenteditable="true"
+                  style="width: 95%;">
+              </td>
+              <td date-title="Assay">
+                <div> 
+                  {{AssayField[i]}}
+                </div>
+              </td>
+              <td date-title="IsKnown">
+                <input type="checkbox" title="Is this Known Curve File?" [(ngModel)]="cbKnownStatus[i]" (onClick)="cbKnownStatus[i] = !cbKnownStatus[i]"
+                  style="margin-top: 5%; width:20px; height: 20px;">
+              </td>
+              <td date-title="Version">
+                <div style="margin-top: 7%;">
+                  <input type="image" title="Remove this file from table" src="../../assets/trash.png" (click)="removeItem(i)" style="width:23px; height:23px; float: left;"
+                  />
+                  <p id="error{{i}}"class="text-danger" >{{errorMsg[i]}}</p>
+                </div>
+              </td>
+
+          </tbody>
+          
+        </table>
+        </div>
+      </div>
+
+
+      <div class="btn-upload">
+        <!--Upload button-->
+        <button type="button" class="btn btn-primary" id="download" (click)="uploadFile()">Upload</button>
+      </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<div class="area"></div>
+<nav class="main-menu">
+    <ul>
+      <li>
+        <a  [routerLinkActive]="['active']"  [routerLink]="['/dashboard']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/homeicon.png" />
+          </i>
+          <span class="nav-text">
+              Dashboard
+          </span>
+        </a>
+      </li>
+      <li class="has-subnav">
+        <a  [routerLinkActive]="['active']"  [routerLink]="['/upload']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/uploadicon.png" />
+          </i>
+          <span class="nav-text">
+            Upload
+          </span>
+        </a>
+  
+      </li>
+      <li class="has-subnav">
+        <a  [routerLinkActive]="['active']"  [routerLink]="['/download']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/viewer_white.png" />
+          </i>
+          <span class="nav-text">
+            Download
+          </span>
+        </a>
+      </li>
+      <li class="has-subnav">
+        <a  [routerLinkActive]="['active']" [routerLink]="['/view']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/stat.png" />
+          </i>
+          <span class="nav-text">
+            View Curve
+          </span>
+        </a>
+      </li>
+      <li class="has-subnav">
+        <a  [routerLinkActive]="['active']" [routerLink]="['/stat']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon"  src="../../assets/statistics.png" />
+          </i>
+          <span class="nav-text">
+            Statistics
+          </span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+
+<body style="background-color: white;">
+
+  <div class="main-container">
+    <div>
+      <!-- Known Curve? -->
+      <input type="checkbox" [(ngModel)]="IsKnown" name="Known" />
+      <font title="Known Curve File?" style="margin-right: 1%;">Known Curve</font>
+      <!-- Tag -->
+      Tag <input type="text" id="Tag" [(ngModel)]="TagField" name="tag" placeholder=" Add a tag" (input)="valueChange($event)"
+        style="margin-right: 1%;">
+      <!-- Assay -->
+      AssayName
+      <select [(ngModel)]="AssayField" style="margin-right: 2%; width: 12%; height: 30px;">
+            <option *ngFor="let assay of assayInDB" [value]="assay.id" (onClick)="AssayField = assay.name">
+              {{assay.name}}
+            </option>
+        </select>
+      <!--Assay Version -->
+      Assay Version
+      <select [(ngModel)]="assayVersionField" style="margin-right: 2%; width: 8%; height: 30px;" id="assayVersion">
+        <option *ngFor="let version of assayVersion" [value]="version" (onClick)="assayVersionField = version">
+          {{version}}
+        </option>
+    </select>
+      <!--Software Version -->
+      Software Version
+      <select [(ngModel)]="softwareVersionField" style="margin-right: 2%; width: 8%; height: 30px;" id="softwareVersion">
+        <option *ngFor="let software of softwareVersion" [value]="software" (onClick)="softwareVersionField = software">
+          {{software}}
+        </option>
+      </select>
+      <!-- search -->
+      <button type="button" class="btn btn-info" style="width: 8%; height: 36px; margin-top: 0.1%; margin-left: 3.2%;" (click)="getFile()"><b>Search</b></button>
+    
+      
+    </div>
+    <div class="row">
+  <!-- clear button -->
+  <button type="button" class="btn btn-outline-danger" style="width: 10%; height: 8%; margin-top: 0.9%; margin-left: 88.7%;" 
+  (click)="clearAll()"><b>Clear Result</b></button>
+    </div>
+  <div>
+    
+      <!-- table -->
+      <div class="wrap-table">
+
+        <div class="wrap-scroll" style="overflow-x: hidden;">
+          <table class="responsive-table">
+            <thead>
+              <tr class="table-head">
+                <th>
+                  <font color="white">Select</font>
+                  <input title="Select all" type="checkbox" [(ngModel)]="selectAllIndicator" style="float: right; width:15px; height:15px; margin-top: 6px; margin-left: 5%;"
+                    (click)="selectAllIndicator = !selectAllIndicator; SelectAll();" />
+                </th>
+                <th>File Name</th>
+                <th>Known</th>
+                <th>Tag</th>
+                <th>Assay Name</th>
+                <th>Upload Date</th>
+                <!--<th>Modified By</th>-->
+                <th>Assay Version</th>
+                <th>Software Version</th>
+                <th>View</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let container of containers; let i = index">
+
+                <td>
+                  <input type="checkbox" [(ngModel)]="cbFileStatus[i]" (click)="changeFileStatus(i);" style="width:15px; height:15px; margin-top:10px; margin-bottom:2px; margin-left:28px; margin-right:3px;"
+                  />
+                </td>
+                <td (dblclick)="DownloadAllFile(false, i)" style="max-width: 100%; cursor: pointer;" title="Double-click to download">{{container.curveFile.FullFileName}}</td>
+                <td (dblclick)="DownloadAllFile(false, i)" style="max-width: 100%; cursor: pointer;" title="Double-click to download">
+                  {{container.curveFile.IsGolden}}
+                </td>
+                <td (dblclick)="DownloadAllFile(false, i)" style="max-width: 100%; cursor: pointer;" title="Double-click to download">{{container.curveFile.Tag}}</td>
+                <td (dblclick)="DownloadAllFile(false, i)" style="max-width: 100%; cursor: pointer;" title="Double-click to download">{{container.AssayName}}</td>
+                <td (dblclick)="DownloadAllFile(false, i)" style="max-width: 100%; cursor: pointer;" title="Double-click to download">{{container.curveFile.FormatCreationDate}}</td>
+                <td (dblclick)="DownloadAllFile(false, i)" style="max-width: 100%; cursor: pointer;" title="Double-click to download">{{container.curveFile.AssayVersion}}</td>
+                <td (dblclick)="DownloadAllFile(false, i)" style="max-width: 100%; cursor: pointer;" title="Double-click to download">{{container.curveFile.SoftwareVersion}}</td>
+                <td title="View Curve">
+                  <div class="container">
+                    <a [routerLink]="['/view']">
+            <button type="button" *ngIf="containers[i].dataSet.channels.length != 0" class="btn btn-info" id="graph{{i}}" (click)="localStorageCurve(i)" style="height: 30%; ">
+              View</button>
+            </a>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-download">
+      <button type="button" title="Download selected file(s)" class="btn btn-success" (click)="DownloadAllFile(true, 0)">Download</button>
+    </div>
+
+  
+
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+.navbar-toggleable-md {
+  padding: 8px;
+  font-size: 1.2em;
+  color: white;
+  position: toggable;
+  overflow: hidden;
+  position: fixed; 
+  top: 0;
+  width: 100%; 
+  z-index: 900;
+}
+
+#nav-img {
+  max-width: 100%;
+  width:190px;
+  cursor: pointer;
+}
+
+.navbar-toggler-right {
+  margin-top: 10px;
+  background-color: #d3d3d3;
+}
+
+#nav-bar-about{
+  right:10px;
+  position: absolute;
+  bottom: 0;
+  font-family: "Times New Roman";
+  size:10px;
+  cursor: pointer;
+}
+
+.navbar-brand {
+  padding: 0px;
+}
+
+.Logo{
+  position: relative;
+  margin-left: -15px;
+} 

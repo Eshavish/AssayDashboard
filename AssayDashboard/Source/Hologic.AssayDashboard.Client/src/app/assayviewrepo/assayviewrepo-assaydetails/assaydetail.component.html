@@ -1,0 +1,611 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<ngx-loading [show]="loading" [config]="{ backdropBackgroundColour: 'rgba(255,255,255,0.5)', 
+        backdropBorderRadius: '50px', primaryColour: '#090585', secondaryColour: '#090585',
+         tertiaryColour: '#090585' }"></ngx-loading>
+<nav class="main-menu">
+  <ul>
+    <li>
+      <a [routerLink]="['/dashboard']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/homeicon.png" />
+        </i>
+        <span class="nav-text">
+            Dashboard
+        </span>
+      </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLink]="['/assayview-home']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/uploadicon.png" />
+        </i>
+        <span class="nav-text">
+          Assay Viewer
+        </span>
+      </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLink]="['/manager']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/listicon.png" />
+        </i>
+        <span class="nav-text">
+          File Manager
+        </span>
+      </a>
+    </li>
+  </ul>
+
+  <ul class="logout">
+    <li>
+      <a>
+        <i class="fa fa-2x"></i>
+        <span class="nav-text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="main-container">
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <a class="navbar-brand">Assay Description</a>
+    <a class="counter">{{ index + 1 }}/{{ totalFiles }}</a>
+    <ul class="navbar-nav mr-auto"> </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <button *ngIf="assay.calculatedCrc !== assay.objectCrc" data-target="#crcModal" data-toggle="modal" type="button" class="btn btn-outline-secondary">Fix CRC</button>
+      <button type="button" class="btn btn-outline-secondary" (click)='onBack()'>File Manager</button>
+    </form>
+  </nav>
+  <div class="detail-header">
+    <img class="img-header" width="310em" src="../../assets/hologic.jpg" alt="Hologic Inc." />
+    <h1 class="assay-header">Assay File Details<br>
+      <div class="assay-name"> {{ assay.assayName }}
+        <div class="file-name">({{assay.fileName}})</div>
+      </div>
+    </h1>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseAssay" aria-expanded="true" aria-controls="collapseAssay">
+    Assay Information
+    </a>
+  <div class="collapse show" id="collapseAssay">
+    <table class="first-assay">
+      <tr>
+        <td class="assay-row"><strong>Assay Name: </strong></td>
+        <td class="row-description"> <h6>{{ assay.assayName }}</h6> </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>Assay Status: </strong></td>
+        <td class="row-description"> <h6>{{ assay.assayStatus }}</h6> </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>Assay ID: </strong></td>
+        <td class="row-description"> <h6>{{ assay.assayTypeID }}</h6> </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>Version: </strong></td>
+        <td class="row-description"> <h6>{{ assay.version }}</h6> </td>
+      </tr>
+      <tr *ngIf="assay.frontEndReference">
+        <td class="assay-row"><strong>Front End Reference: </strong></td>
+        <td class="row-description"> <h6>{{ assay.frontEndReference }}</h6> </td>
+      </tr>
+    </table>
+    <table class="second-assay">
+      <tr>
+        <td class="assay-row"><strong>Data Reduction Assembly: </strong></td>
+        <td class="row-description"> <h6>{{ assay.dataReduction.reductionAssembly }}</h6> </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>Resource: </strong></td>
+        <td class="row-description"> <h6>{{ assay.resource }}</h6> </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>Type: </strong></td>
+        <td class="row-description"> <h6>{{ assay.type }}</h6> </td>
+      </tr>
+      <tr *ngIf='assay.analytes; else noanalytes'>
+        <td class="assay-row"><strong>Analytes: </strong></td>
+        <td class="row-description"> <h6>{{ assay.analytes }}</h6> </td>
+      </tr>
+      <tr *ngIf="assay.thermalProfileReference">
+        <td class="assay-row"><strong>Thermocycle Reference: </strong></td>
+        <td> <h6>{{ assay.thermalProfileReference }}</h6> </td>
+      </tr>
+      <ng-template #noanalytes>
+        <tr> 
+          <td class="assay-row"><strong>Analytes: </strong></td>
+          <td> <h6>N/A</h6> </td>
+        </tr>
+      </ng-template>
+    </table>
+  </div>
+
+  <a class="carousel-control-prev" role="button" data-slide="prev" (click)='onPrevious()'>
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" role="button" data-slide="next" (click)='onNext()'>
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseMessages" aria-expanded="true" aria-controls="collapseMessages">
+     Assay Messages 
+  </a>
+  <div class="collapse show" id="collapseMessages">
+    <div class="card card-block">
+      <div class="text-center" *ngIf='assay.assayMessages; else nomessages'>
+        <table class="table table-sm table-bordered reagent-table">
+          <thead class="table-headers">
+            <tr>
+              <th>Assay Message</th>
+              <th>Diagnostic</th>
+              <th>Event Code</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let message of assay.assayMessages'>
+              <td> <h6>{{ message.message }}</h6> </td>
+              <td> <h6>{{ message.diagnostic }}</h6> </td>
+              <td> <h6>{{ message.eventCode }}</h6> </td>
+              <td> <h6>{{ message.type }}</h6> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #nomessages>
+        <h6><strong>Assay has no messages</strong></h6>
+      </ng-template>
+    </div>
+  </div>
+
+
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseCalibrator" aria-expanded="true" aria-controls="collapseCalibrator">
+      Calibrator Information
+  </a>
+  <div class="collapse show" id="collapseCalibrator">
+    <div class="card card-block">
+      <div class="text-center" *ngIf='assay.reagentTypeDescription.calibrators.length; else nocalibrator'>
+        <table class="table table-sm table-bordered reagent-table">
+          <thead class="table-headers">
+            <tr>
+              <th>Calibrator Name</th>
+              <th>Reagent Type ID</th>
+              <th>Replicates</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let calibrator of assay.reagentTypeDescription.calibrators'>
+              <td> <h6>{{ calibrator.calibratorName }}</h6> </td>
+              <td> <h6>{{ calibrator.calibratorTypeID }}</h6> </td>
+              <td> <h6>{{ calibrator.replicates }}</h6> </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #nocalibrator>
+        <h6><strong>Assay has no calibrators</strong></h6>
+      </ng-template>
+    </div>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseControls" aria-expanded="true" aria-controls="collapseControls">
+      Control Information
+    </a>
+  <div class="collapse show" id="collapseControls">
+    <div class="card card-block">
+      <div *ngIf='assay.reagentTypeDescription.controls.length; else nocontrol'>
+        <div *ngIf='assay.reagentTypeDescription.controls.length; else nocontrol'>
+          <table class="table table-sm table-bordered reagent-table">
+            <thead class="table-headers">
+              <tr>
+                <th>Control Name</th>
+                <th>Reagent Type ID</th>
+                <th>On Board Stability</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+              <tr *ngFor='let control of assay.reagentTypeDescription.controls'>
+                <td> <h6>{{ control.controlName }}</h6> </td>
+                <td> <h6>{{ control.reagentTypeID }}</h6> </td>
+                <td> <h6>{{ control.onBoardStability }}</h6> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <ng-template #nocontrol>
+        <h6><strong>Assay has no controls</strong></h6>
+      </ng-template>
+    </div>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
+      Reagent Information
+    </a>
+  <div class="collapse show" id="collapseExample">
+    <div class="card card-block">
+      <div class="text-center" *ngIf='assay.reagentTypeDescription.reagents.length; else noreagents'>
+        <table class="table table-sm table-bordered reagent-table">
+          <thead class="table-headers">
+            <tr>
+              <th>Reagent Name</th>
+              <th>Reagent ID</th>
+              <th>OpenKit Stability</th>
+              <th>Onboard Stability</th>
+              <th>Number of Tests</th>
+              <th>On Board</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let reagent of assay.reagentTypeDescription.reagents;'>
+              <td><h6>{{ reagent.reagentName }}</h6></td>
+              <td><h6>{{ reagent.reagentTypeID }}</h6></td>
+              <td><h6>{{ reagent.openKitStability }}</h6></td>
+              <td><h6>{{ reagent.onBoardStability }}</h6></td>
+              <td *ngIf='reagent.fluidVessel'> <h6>{{ reagent.fluidVessel.numberOfTests }}</h6> </td>
+              <td *ngIf='!reagent.fluidVessel'> <h6>---</h6> </td>
+              <td *ngIf='reagent.isOnboard === "true"'>✔</td>
+              <td *ngIf='reagent.isOnboard === "false"'>✖</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ng-template #noreagents>
+        <h6><strong>Assay has no reagents</strong></h6>
+      </ng-template>
+    </div>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseDataReduc" aria-expanded="true" aria-controls="collapseDataReduc"
+    (click)="reduceRows()">
+    Result Categories
+  </a>
+  <div class="collapse show" id="collapseDataReduc">
+    <div class="card card-block">
+      <div class="text-center" *ngIf='assay.dataReduction.resultCategories.length; else nocategories'>
+        <div class="container">
+          <div class="tabular-data module">
+            <div class="data-group data-header hidden-sm">
+              <div class="row">
+                <div class="col-lg-2 col-md-2">
+                  <strong class="uppecase">Category Index</strong>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <strong class="uppecase">Category Name</strong>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <strong class="uppecase">Sent to LIS</strong>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <strong class="uppecase">Sent to UI</strong>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <strong class="uppecase">Sent to Report</strong>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <strong class="uppecase">LIS Hold Release</strong>
+                </div>
+                <div class="col-lg-2 col-md-2">
+                  <strong class="uppecase">In Specimen Tallies</strong>
+                </div>
+              </div>
+            </div>
+            <div class="data-group">
+              <div class="rows">
+                <div class="data-expands" *ngFor='let item of assay.dataReduction.resultCategories;' [class.row-active]='item.active'>
+                  <div class="row" (click)='item.active=!item.active'>
+                    <div class="col-lg-2 col-md-2">
+                      <span data-label="Index" class="title">{{ item.index }}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                      <span data-label="Category Name" class="title">{{ item.categoryName | slice:0:21}}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                      <span [ngClass]="{'color-blue': item.sentToLIS === 'true'}" data-label="SentToLIS" class="title caps">{{ item.sentToLIS }}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                      <span [ngClass]="{'color-blue': item.sentToUI === 'true'}" data-label="SentToUI" class="title caps">{{ item.sentToUI }}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                      <span [ngClass]="{'color-blue': item.sentToReport === 'true'}" data-label="SentToReport" class="title caps">{{ item.sentToReport }}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                      <span [ngClass]="{'color-blue': item.lisHold === 'true'}" data-label="LIS Hold" class="title caps">{{ item.lisHold }}</span>
+                    </div>
+                    <div *ngIf="item.inSpecimenTallies" class="col-lg-2 col-md-2">
+                      <span [ngClass]="{'color-blue': item.inSpecimenTallies === 'true'}" data-label="In Specimen Tallies" class="title caps">{{ item.inSpecimenTallies }}</span>
+                    </div>
+                    <div *ngIf="!item.inSpecimenTallies" class="col-lg-2 col-md-2">
+                      <span [ngClass]="{'color-blue': item.inSpecimenTallies === 'true'}" data-label="In Specimen Tallies" class="title caps">---</span>
+                    </div>
+                  </div>
+                  <div class="expandable" [class.row-open]="item.active">
+                    <div *ngIf='item.resultEnum.interpretationList.length; else noenum' class="row">
+                      <hr class="line-split">
+                      <u>
+                        <h6>Result Enumeration:</h6>
+                      </u>
+                      <table class="table table-sm table-bordered table-responsive reagent-table">
+                        <thead class="table-headers">
+                          <tr>
+                            <th class="reagent-row">Data Reduction Index</th>
+                            <th class="reagent-row">Interpretation</th>
+                            <th class="reagent-row">Interpretation Concept</th>
+                            <th class="reagent-row">Display Style</th>
+                            <th class="reagent-row">LIS Hold Release</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor='let interpretation of item.resultEnum.interpretationList'>
+                            <td class="row-content">
+                              <h6>{{ interpretation.reductionIndex }}</h6>
+                            </td>
+                            <td [ngClass]="{'color-red': interpretation.displayStyle === '2', 'color-blue': interpretation.displayStyle === '6'}">{{interpretation.interpretation}}</td>
+                            <td>{{interpretation.concept}}</td>
+                            <td>{{interpretation.displayStyle}}</td>
+                            <td style="text-transform: capitalize;">
+                              <h6>{{ interpretation.lisHold }}</h6>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #nocategories>
+        <h6><strong>Assay has no Result Categories</strong></h6>
+      </ng-template>
+      <ng-template #noenum>
+        <br>
+        <h6 style="padding-bottom: 1em;">No Result Enumeration Data</h6>
+      </ng-template>
+    </div>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">
+    Assay Settings
+  </a>
+  <div class="collapse" id="collapseSettings">
+    <div class="multistage" *ngIf='assay.dataReduction.assaySettings.length; else nosettings'>
+      <div class="wrap-table">
+        <div class="wrap-scroll">
+          <table class="scrolltable">
+            <thead>
+              <tr class="header">
+                <th class="indexrow">No.</th>
+                <th>Setting Name</th>
+                <th>Setting Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let setting of assay.dataReduction.assaySettings; let i=index;'>
+                <td date-title="Index" class="indexrow">{{ i + 1 }}</td>
+                <td date-title="Flag ID">{{ setting.settingName }}</td>
+                <td date-title="Severity">{{ setting.settingValue }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <ng-template #nosettings>
+      <h6><strong>No Assay Setting Data</strong></h6>
+    </ng-template>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseFlags" aria-expanded="false" aria-controls="collapseFlags">
+    Assay Flags
+  </a>
+  <div class="collapse" id="collapseFlags">
+    <div class="multistage" *ngIf='assay.dataReduction.assayFlags.length; else noflags'>
+      <div class="wrap-table">
+        <div class="wrap-scroll">
+          <table class="scrolltable">
+            <thead>
+              <tr>
+                <th>Flag Name</th>
+                <th>Flag ID</th>
+                <th class="legendrow">Flag Legend</th>
+                <th>Result Bit</th>
+                <th>Flag Severity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let flag of assay.dataReduction.assayFlags'>
+                <td date-title="Flag Name">{{ flag.flagName }}</td>
+                <td date-title="Flag ID">{{ flag.flagId }}</td>
+                <td date-title="Flag Legend" class="legendrow">{{ flag.flagLegend }}</td>
+                <td date-title="Result Bit">{{ flag.resultBit }}</td>
+                <td date-title="Severity">{{ flag.flagSeverity }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <ng-template #noflags>
+      <h6><strong>No Assay Flags</strong></h6>
+    </ng-template>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseDilutions" aria-expanded="false" aria-controls="collapseDilutions">
+    Assay Dilutions
+  </a>
+  <div class="collapse" id="collapseDilutions">
+    <div class="multistage" *ngIf='assay.dataReduction.assayDilutions.length; else nodilutions'>
+      <div class="wrap-table">
+        <div class="wrap-scroll">
+          <table class="scrolltable">
+            <thead>
+              <tr class="header">
+                <th class="indexrow">No.</th>
+                <th>Flag ID</th>
+                <th>Dilution Factor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let dilution of assay.dataReduction.assayDilutions; let i=index;'>
+                <td date-title="Index" class="indexrow">{{ i + 1 }}</td>
+                <td date-title="Flag ID">{{ dilution.flagId }}</td>
+                <td date-title="Severity">{{ dilution.factor }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <ng-template #nodilutions>
+      <h6><strong>No Assay Dilution Data</strong></h6>
+    </ng-template>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseProcess" aria-expanded="false" aria-controls="collapseProcess">
+    Process Steps
+  </a>
+  <div class="collapse" id="collapseProcess">
+    <div class="card card-block">
+      <div class="text-center" *ngIf='assay.processSteps.length; else noprocesssteps'>
+        <div class="container">
+          <div class="tabular-data module">
+            <div class="data-group data-header hidden-sm">
+              <div class="row">
+                <div class="col-md-1">
+                  <strong class="uppecase">No.</strong>
+                </div>
+                <div class="col-lg-2 col-md-3">
+                  <strong class="uppecase">Step</strong>
+                </div>
+                <div class="col-lg-2 col-md-3">
+                  <strong class="uppecase">Step Name</strong>
+                </div>
+                <div class="col-lg-2 col-md-3">
+                  <strong class="uppecase">Device</strong>
+                </div>
+              </div>
+            </div>
+            <div class="data-group">
+              <div class="rows">
+                <div class="data-expands" *ngFor='let steps of assay.processSteps; let j = index;' [class.row-active]='isClicked ===j'>
+                  <div class="row" (click)='isClicked=j'>
+                    <div class="col-md-1">
+                      <span data-label="No." class="title">{{ j+1 }}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                      <span data-label="Step" class="title">{{ steps[0].value | slice:0:21}}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                      <span data-label="Step Name" class="title caps">{{ steps[1].value }}</span>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                      <span data-label="Device" class="title caps">{{ steps[2].value }}</span>
+                    </div>
+                  </div>
+                  <div class="expandable" [class.row-open]="isClicked === j">
+
+                    <table class="table table-bordered table-sm table-responsive reagent-table">
+                      <thead class="table-headers">
+                        <tr>
+                          <th class="reagent-row">Process Step Property</th>
+                          <th class="reagent-row">Process Step Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor='let step of steps; let i = index'>
+                          <td *ngIf="step.property !== 'StepList' && step.property!== 'Step'" date-title="Flag ID">{{ step.property }}</td>
+                          <td *ngIf="step.property !== 'StepList' && step.property!== 'Step'" date-title="Severity">{{ step.value }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <div *ngFor='let step of steps; let i = index'>
+                      <div *ngIf="step.property === 'StepList'">
+                        <div class="collapse show" id="collapseProcess">
+                          <div class="card card-block">
+                            <div id="accordion" role="tablist" aria-multiselectable="true">
+                              <div class="card processes" *ngFor='let innerstep of step.value; let j = index'>
+                                <div class="card-header" role="tab" id="innerheading{{j}}">
+                                  <h6 class="mb-0">
+                                    <a class="accordion-label" data-toggle="collapse" data-parent="#inneraccordion" href="#innercollapse{{j}}" aria-controls="collapseOne">
+                                {{innerstep[0].value}}
+                              </a>
+                                  </h6>
+                                </div>
+
+                                <div id="innercollapse{{j}}" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                  <div class="card-block">
+                                    <div class="stepdata">
+                                      <div class="wrap-table">
+                                        <div class="wrap-scroll">
+                                          <table class="scrolltable">
+                                            <thead>
+                                              <tr class="header">
+                                                <th>Property</th>
+                                                <th>Value</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody>
+                                              <tr *ngFor='let substep of innerstep'>
+                                                <td *ngIf="substep.property !== 'StepList'" date-title="Flag ID">{{ substep.property }}</td>
+                                                <td *ngIf="substep.property !== 'StepList'" date-title="Severity">{{ substep.value }}</td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noprocesssteps>
+    <h6><strong>Assay has no Result Categories</strong></h6>
+  </ng-template>
+
+  <div class="footer-divider"> End of Assay Details </div>
+</div>
+
+<div class="modal fade" id="crcModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Download ADF</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <span class="modal-text"><strong>File Name: </strong> {{ assay.fileName }}</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" (click)='fixCrc()' data-dismiss="modal">Download</button>
+      </div>
+    </div>
+  </div>
+</div>

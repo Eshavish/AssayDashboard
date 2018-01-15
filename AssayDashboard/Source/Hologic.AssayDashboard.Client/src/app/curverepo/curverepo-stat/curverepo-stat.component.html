@@ -1,0 +1,106 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<div class="area"></div>
+<nav class="main-menu">
+  <ul>
+    <li>
+      <a  [routerLinkActive]="['active']"  [routerLink]="['/dashboard']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/homeicon.png" />
+        </i>
+        <span class="nav-text">
+            Dashboard
+        </span>
+      </a>
+    </li>
+    <li class="has-subnav">
+      <a  [routerLinkActive]="['active']"  [routerLink]="['/upload']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/uploadicon.png" />
+        </i>
+        <span class="nav-text">
+          Upload
+        </span>
+      </a>
+
+    </li>
+    <li class="has-subnav">
+      <a  [routerLinkActive]="['active']"  [routerLink]="['/download']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/viewer.png" />
+        </i>
+        <span class="nav-text">
+          Download
+        </span>
+      </a>
+    </li>
+    <li class="has-subnav">
+      <a  [routerLinkActive]="['active']" [routerLink]="['/view']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/stat.png" />
+        </i>
+        <span class="nav-text">
+          View Curve
+        </span>
+      </a>
+    </li>
+    <li class="has-subnav">
+      <a  [routerLinkActive]="['active']" [routerLink]="['/stat']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/statistics_white.png" />
+        </i>
+        <span class="nav-text">
+          Statistics
+        </span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<body>
+  <div class="container" id="stat">
+
+    <div class="row">
+      <ul style="margin-right: 35%; margin-top: 1.5%;">
+        <li><b>Total Curve File(s): </b>{{totalNumOfCurve}}<br></li>
+        <li><b>Known Curve File(s): </b>{{totalNumOfKnown}}<br></li>
+        <li><b>Unknown Curve File(s): </b>{{totalNumOfCurve - totalNumOfKnown}}<br></li>
+      </ul>
+
+
+      <google-chart [data]="pieChartKnownData"></google-chart>
+
+    </div>
+
+
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+      <b>Assay Information</b>
+    </div>
+
+
+    <div style="height: 400px; overflow: auto">
+      <table class="table table-striped">
+        <thead class="thead-default">
+          <tr>
+            <th>Assay Name</th>
+            <th>TypeId</th>
+            <th>Number of File(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of AssayData">
+            <td><b>{{data.assay.AssayName}}</b></td>
+            <td>{{data.assay.TypeId}}</td>
+            <td><b>{{data.fileCount}}</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="loader" id="loader"></div>
+</body>

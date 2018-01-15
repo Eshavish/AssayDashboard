@@ -1,0 +1,465 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<ngx-loading [show]="loading" [config]="{ backdropBackgroundColour: 'rgba(255,255,255,0.5)', 
+        backdropBorderRadius: '50px', primaryColour: '#090585', secondaryColour: '#090585',
+         tertiaryColour: '#090585' }"></ngx-loading>
+<nav class="main-menu">
+  <ul>
+    <li>
+      <a [routerLink]="['/dashboard']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/homeicon.png" />
+        </i>
+        <span class="nav-text">
+            Dashboard
+        </span>
+      </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLink]="['/runexport-home']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/uploadicon.png" />
+        </i>
+        <span class="nav-text">
+          Assay Viewer
+        </span>
+      </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLink]="['/RunManager']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/listicon.png" />
+        </i>
+        <span class="nav-text">
+          File Manager
+        </span>
+      </a>
+    </li>
+  </ul>
+
+  <ul class="logout">
+    <li>
+      <a>
+        <i class="fa fa-2x"></i>
+        <span class="nav-text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="main-container">
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <a class="navbar-brand">Run Description</a>
+    <a class="counter">{{ index + 1 }}/{{ totalFiles }}</a>
+    <ul class="navbar-nav mr-auto"> </ul>
+    <form class="form-inline my-2 my-lg-0">
+
+      <button type="button" class="btn btn-outline-secondary" (click)='onBack()'>File Manager</button>
+    </form>
+  </nav>
+  <div class="detail-header">
+    <img class="img-header" width="310em" src="../../assets/hologic.jpg" alt="Hologic Inc." />
+    <h1 class="assay-header">Run File Details<br>
+      <div class="file-name">({{run.FileName}})</div>
+    </h1>
+  </div>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseAssay" aria-expanded="true" aria-controls="collapseAssay">
+    Run Information
+  </a>
+  <div class="collapse show" id="collapseAssay">
+    <table class="first-assay">
+      <tr>
+        <td class="assay-row"><strong>Assay Name: </strong></td>
+        <td class="row-description">
+          <h6>{{ run.AssayName }}</h6>
+        </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>Assay Type: </strong></td>
+        <td class="row-description">
+          <h6>{{ run.AssayType }}</h6>
+        </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>Assay Version: </strong></td>
+        <td class="row-description">
+          <h6>{{ run.AssayVersion }}</h6>
+        </td>
+      </tr>
+    </table>
+    <table class="second-assay">
+      <tr *ngIf="run.PcrCartridgeLot === ''">
+        <td class="assay-row"><strong>MasterLotBarcode: </strong></td>
+        <td class="row-description">
+          <h6>{{ run.MasterLotBarcode }}</h6>
+        </td>
+      </tr>
+      <tr *ngIf="run.PcrCartridgeLot === ''">
+        <td class="assay-row"><strong>MasterLotExpiration: </strong></td>
+        <td class="row-description">
+          <h6>{{ run.MasterLotExpiration }}</h6>
+        </td>
+      </tr>
+      <tr *ngIf="run.PcrCartridgeLot !== ''">
+        <td class="assay-row"><strong>PcrCartridgeLot: </strong></td>
+        <td class="row-description">
+          <h6>{{ run.PcrCartridgeLot }}</h6>
+        </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>RunId: </strong></td>
+        <td class="row-description">
+          <h6>{{ run.RunId }}</h6>
+        </td>
+      </tr>
+      <tr>
+        <td class="assay-row"><strong>SerialNumber: </strong></td>
+        <td>
+          <h6>{{ run.SerialNumber }}</h6>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- OtherData -->
+  <div *ngIf='run.OtherData.Item.length != 0'>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseOtherData" aria-expanded="true" aria-controls="collapseOtherData">
+    {{run.OtherData.Item.length}} Other Data
+  </a>
+    <div class="collapse" id="collapseOtherData">
+      <div class="stepdata">
+        <div class="wrap-table">
+          <div class="wrap-scroll">
+            <table class="scrolltable">
+              <thead>
+                <tr class="header">
+                  <th>Name</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let data of run.OtherData.Item;'>
+                  <td date-title="Flag ID">{{ data.Name }}</td>
+                  <td date-title="Severity">{{ data.Value|| "---" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a *ngIf="totalFiles !== 1" class="carousel-control-prev" role="button" data-slide="prev" (click)='onPrevious()'>
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a *ngIf="totalFiles !== 1" class="carousel-control-next" role="button" data-slide="next" (click)='onNext()'>
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseTest" aria-expanded="true" aria-controls="collapseTest"
+    (click)="collapseAll()">
+      {{run.TestOrders.TestOrder.length}}  Test Orders 
+  </a>
+  <div class="collapse show" id="collapseTest">
+    <div class="card card-block">
+      <div class="text-center">
+        <div class="container">
+          <div class="tabular-data module">
+            <div class="data-group data-header hidden-sm">
+              <div class="rows">
+                <div class="data-expands" *ngFor='let TestOrder of run.TestOrders.TestOrder; let j = index;'>
+                  <div class="row cursorActive" (click)="toggle('TestOrder', j)">
+                    <a class="col-lg-2 col-md-3">
+                      <span data-label="Step" class="title"><b style="color:black">Test Order ({{ TestOrder.TestOrderId }})</b></span>
+                    </a>
+                  </div>
+                  <div style="display: none; padding-left: 3%; padding-right: 3%;" id="TestOrder{{j}}">
+                    <div style="margin-bottom: 3%;">
+                    <table class="first-assay">
+                      <tr>
+                        <td class="assay-row"><strong>SampleId </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.SampleId }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>SampleDisplayName </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.SampleDisplayName }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>SampleType </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.SampleType }}</h6>
+                        </td>
+                      </tr>
+                      <tr *ngIf="TestOrder.Analytes.Analyte.length !== 0">
+                        <td class="assay-row"><strong>Analytes: </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.Analytes.Analyte.toString() }}</h6>
+                        </td>
+                      </tr>
+                      <tr *ngIf="TestOrder.InstrumentFlags.Flag.length !== 0">
+                        <td class="assay-row"><strong>Instrument Flags: </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.InstrumentFlags.Flag.toString() }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>Mtu Id: </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.MtuId }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>Completion Time: </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.CompletionTime }}</h6>
+                        </td>
+                      </tr>
+                    </table>
+                    <table class="second-assay">
+                      <tr>
+                        <td class="assay-row"><strong>Measurement Time: </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.MeasurementTime }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>Operator: </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.Operator }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>OrderType: </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.OrderType }}</h6>
+                        </td>
+                      </tr>
+                      <tr *ngIf="TestOrder.ParentTestOrderId !== ''">
+                        <td class="assay-row"><strong>Parent Test OrderID: </strong></td>
+                        <td>
+                          <h6>{{ TestOrder.ParentTestOrderId }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>Pipetting Time: </strong></td>
+                        <td class="row-description">
+                          <h6>{{ TestOrder.PipettingTime }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>Position In Mtu: </strong></td>
+                        <td>
+                          <h6>{{ TestOrder.PositionInMtu }}</h6>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="assay-row"><strong>Rack and Position: </strong></td>
+                        <td>
+                          <h6>{{ TestOrder.RackAndPosition }}</h6>
+                        </td>
+                      </tr>
+                      <tr *ngIf="TestOrder.WorklistIdSuffix!==''">
+                        <td class="assay-row"><strong>WorklistIdSuffix </strong></td>
+                        <td>
+                          <h6>{{ TestOrder.WorklistIdSuffix }}</h6>
+                        </td>
+                      </tr>
+                    </table>
+                    </div>
+
+                    <a class="cursorActive" style="margin-top:3%;">
+                      <span (click)="toggleResult(j)"><strong><h6 style="border-style: outset; color: rgb(100,149,237);">{{TestOrder.Result.ResultCategories.ResultCategoryData.length}} Results</h6></strong></span>
+                    </a>
+                    <div style="display:none" id=resultCategory{{j}}>
+                      <div>
+                        <hr class="line-split">
+                        <u>
+                          <h6>Result Categories:</h6>
+                        </u>
+                        <table class="table table-sm table-bordered reagent-table">
+                          <thead class="table-headers">
+                            <tr>
+                              <th class="reagent-row">Category Index</th>
+                              <th class="reagent-row">English Interpretation</th>
+                              <th class="reagent-row">Interpretation</th>
+                              <th class="reagent-row">Style</th>
+                              <th class="reagent-row">Unit of Measure</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor='let result of TestOrder.Result.ResultCategories.ResultCategoryData'>
+                              <td class="row-content">
+                                <h6>{{ result.CategoryIndex }}</h6>
+                              </td>
+                              <td [ngClass]="{'noDisplay': result.Style === '-1', 'redItalicBold': result.Style === '1',
+                                       'redBold': result.Style === '2', 'redItalic': result.Style === '3', 'red':result.Style === '4',
+                                       'blueItalicBold':result.Style === '5', 'blueBold': result.Style === '6', 'blueItalic':result.Style === '7',
+                                       'blue':result.Style==='8','greenItalicBold':result.Style==='9','greenBold':result.Style==='10',
+                                       'greenItalic':result.Style==='11','green':result.Style==='12'}">
+                                {{result.EnglishInterpretation || '---'}}</td>
+
+                              <td [ngClass]="{'noDisplay': result.Style === '-1', 'redItalicBold': result.Style === '1',
+                                        'redBold': result.Style === '2', 'redItalic': result.Style === '3', 'red':result.Style === '4',
+                                        'blueItalicBold':result.Style === '5', 'blueBold': result.Style === '6', 'blueItalic':result.Style === '7',
+                                        'blue':result.Style==='8','greenItalicBold':result.Style==='9','greenBold':result.Style==='10',
+                                        'greenItalic':result.Style==='11','green':result.Style==='12'}">
+                                {{result.Interpretation || '---'}}</td>
+                              <td style="text-transform: capitalize;">
+                                <h6>{{ result.Style || '---'}}</h6>
+                              </td>
+                              <td>{{result.UnitOfMeasure || '---'}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+
+                    <a class="cursorActive" (click)="toggle('dataReduc',j)" *ngIf='run.TestOrders.TestOrder[j].Result.DetailedDataReductionRes.DetailedDataReductionResString != null'>
+                      <span><strong><h6 style="border-style: outset; color: rgb(100,149,237);">rawDataReduction</h6></strong></span>
+                    </a>
+                    <div *ngIf='rawDataReduction.length != 0' id="dataReduc{{j}}" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="card-block">
+                        <div class="stepdata">
+                          <div class="wrap-table">
+                            <div class="wrap-scroll">
+                              <table class="scrolltable">
+                                <thead>
+                                  <tr class="header">
+                                    <th>Name</th>
+                                    <th>Value</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <div>
+                                    <tr *ngFor='let item of rawDataReduction[j]'>
+                                      <td date-title="Flag ID">{{ item[0] }}</td>
+                                      <td date-title="Severity">{{ item[1] || "---" }}</td>
+                                    </tr>
+                                  </div>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div *ngIf='rawDataReduction.length == 0' id="dataReduc{{j}}" class="collapse" style="margin-bottom: 2%;">
+                      <div class="card card-block">
+                        <div class="text-center">
+                          <div class="container">
+                            <div class="tabular-data module">
+                              <div class="data-group data-header hidden-sm">
+                                <div class="rows">
+                                  <div class="data-expands" *ngFor='let dataReduction of specialDataReduction[j]; let y = index;'>
+                                    <div class="row" (click)="toggleDataReduc(j, y)">
+                                      <div class="col-lg-2 col-md-3">
+                                        <span data-label="Step" class="title"><b style="color:black">{{specialDataReduction[j][y][0]}}</b></span>
+                                      </div>
+                                    </div>
+
+                                    <div id='DataReduction{{j}}{{y}}' class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                      <div class="card-block">
+                                        <div class="stepdata">
+                                          <div class="wrap-table">
+                                            <div class="wrap-scroll">
+                                              <table class="scrolltable">
+                                                <thead>
+                                                  <tr class="header">
+                                                    <th>Index</th>
+                                                    <th>Value</th>
+                                                  </tr>
+                                                </thead>
+                                                <tbody>
+                                                  <div>
+                                                    <tr *ngFor='let item of specialDataReduction[j][y]; let count = index;'>
+                                                      <td date-title="Flag ID">{{ count+1 }}</td>
+                                                      <td date-title="Severity">{{ item || "---" }}</td>
+                                                    </tr>
+                                                  </div>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <div *ngIf="TestOrder.Result.DetailedDataReductionRes.Tube" style="margin-top:1%;">
+                      <span>
+                        <strong>
+                          <h6 class="cursorActive" (click)="showChannel(j,TestOrder.Result.DetailedDataReductionRes.Tube.Channel.length)" 
+                                  style="border-style: outset;color: rgb(100,149,237);">
+                                  {{TestOrder.Result.DetailedDataReductionRes.Tube.Channel.length}} Channels
+                          </h6>
+                        </strong>
+                      </span>
+
+                      <div id="OuterChannel{{j}}{{i}}" class="data-expands" style="display:none" *ngFor='let channel of TestOrder.Result.DetailedDataReductionRes.Tube.Channel; let i = index;'>
+
+                        <div class="row">
+                          <div class="col-lg-2 col-md-3 cursorActive" (click)="toggleChannel(j,i)">
+                            <span data-label="Step" class="title"><b style="color:black; text-decoration: underline;">Channel {{channel.Name}}</b></span>
+                          </div>
+
+                          <div id="channel{{j}}{{i}}" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="card-block">
+                              <div class="stepdata">
+                                <div class="wrap-table">
+                                  <div class="wrap-scroll">
+                                    <table class="scrolltable">
+                                      <thead>
+                                        <tr class="header">
+                                          <th>Name</th>
+                                          <th>Value</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor='let item of channel.Item'>
+                                          <td date-title="Flag ID">{{ item.Name }}</td>
+                                          <td date-title="Severity">{{ item.Value|| "---" }}</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-divider"> End of Run Details </div>

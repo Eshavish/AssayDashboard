@@ -1,0 +1,20 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<ngx-loading [show]="loading" [config]="{ backdropBackgroundColour: 'rgba(255,255,255,0.5)', 
+        backdropBorderRadius: '50px', primaryColour: '#090585', secondaryColour: '#090585',
+         tertiaryColour: '#090585' }"></ngx-loading>
+<div class="dropzone">
+  <div class="text-wrapper">
+    <img id="upload-img" src="../../assets/tray.png" width="200px" height="auto" class="img-fluid" alt="Upload files">
+    <div class="centered">
+      Drag Files Here<br>
+    <label for="file-upload" class="custom-file-upload">
+        Click Here to Browse
+      <input id="input-upload" type="file" (change)="changeListener($event)" multiple/>
+      </label>
+    </div>
+  </div>
+</div>

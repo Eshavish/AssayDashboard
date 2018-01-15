@@ -1,0 +1,56 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<nav class="main-menu">
+  <ul>
+    <li>
+      <a [routerLink]="['/dashboard']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/homeicon.png" />
+        </i>
+        <span class="nav-text">
+            Dashboard
+        </span>
+      </a> 
+    </li>
+    <li class="has-subnav">
+      <a  [routerLinkActive]="['active']" [routerLink]="['/assayview-home']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/uploadicon_white.png" />
+        </i>
+        <span class="nav-text">
+          Assay Viewer
+        </span>
+      </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLink]="['/manager']">
+        <i class="fa fa-2x">   
+          <input type="image" class="icon" src="../../assets/listicon.png" />
+        </i>
+        <span class="nav-text">
+          File Manager
+        </span>
+      </a> 
+    </li>
+  </ul>
+
+  <ul class="logout">
+    <li>
+      <a>
+        <i class="fa fa-2x"></i>
+        <span class="nav-text">Logout</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<div class="main-container">
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <a class="navbar-brand">Load Files</a>
+    <button type="button" class="btn btn-outline-secondary" (click)='onManager()'>File Manager</button>
+  </nav>
+  <app-dragdrop></app-dragdrop>
+</div>

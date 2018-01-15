@@ -1,0 +1,121 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<div class="area"></div>
+<nav class="main-menu">
+  <ul>
+    <li>
+      <a [routerLinkActive]="['active']" [routerLink]="['/dashboard']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/homeicon.png" />
+          </i>
+          <span class="nav-text">
+              Dashboard
+          </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLinkActive]="['active']" [routerLink]="['/upload']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/uploadicon.png" />
+          </i>
+          <span class="nav-text">
+            Upload
+          </span>
+        </a>
+
+    </li>
+    <li class="has-subnav">
+      <a [routerLinkActive]="['active']" [routerLink]="['/download']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/viewer.png" />
+          </i>
+          <span class="nav-text">
+            Download
+          </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLinkActive]="['active']" [routerLink]="['/view']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/stat_white.png"/>
+          </i>
+          <span class="nav-text">
+            View Curve
+          </span>
+        </a>
+    </li>
+    <li class="has-subnav">
+      <a [routerLinkActive]="['active']" [routerLink]="['/stat']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/statistics.png" />
+          </i>
+          <span class="nav-text">
+            Statistics
+          </span>
+        </a>
+    </li>
+  </ul>
+</nav>
+
+<body>
+
+  <div id="controller">
+    <div class="container graphContainer controller">
+      <div class="marginTop" style="word-wrap: break-word;">
+        <b>File Name: </b>
+        <font id=ellipsis>{{fileName}}</font>
+      </div>
+
+      <div class="marginTop">
+        <b>Assay Name: </b> {{graphAssay}}
+      </div>
+
+      <div class="marginTop">
+        <b>Select SampleID(s)</b>
+        <div class="myBox">
+          <div *ngFor="let data of sampleIDHolder; let i = index">
+            <div>
+              <input type="checkbox" style="vertical-align:middle; float:left; margin-top: 6px;" [checked]="sampleCheckBox[i]" (click)="sampleCheckBox[i] = !sampleCheckBox[i]; populate();">
+              <font style="word-wrap: break-word;">{{data}}</font>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="marginTop">
+        <b>Select Channel(s)</b>
+        <div *ngFor="let data of dataSet; let i = index">
+          <input type="checkbox" [checked]="checkBox[i]" (click)="checkBox[i] = !checkBox[i]; populate();"> {{data.channel}}
+        </div>
+      </div>
+
+      <div class="marginTop">
+        <button (click)="clearAll()">Clear </button>
+      </div>
+
+      <div id="graph" class="marginTop">
+        <a [routerLink]="['/download']">
+    <button type="button" class="btn btn-primary">View another Graph</button>
+    </a>
+      </div>
+    </div>
+
+    <div class="narrow">
+      <google-chart id="chart" [data]=lineChartData></google-chart>
+    </div>
+  </div>
+
+  <div id="noGraph" style="position: fixed; right: 40%; margin-top: 80px;">
+    <a [routerLink]="['/download']">
+      <button id="buttonHelper"type="button" class="btn btn-primary">Please Go to Download Tab and select a Curve File</button>
+     </a>
+  </div>
+
+  <div id='helper' style="position: fixed; right: 40%; margin-top: 150px;">
+    <font style="font-family: Arial Black">Please select SampleID(s) or Channel(s)</font>
+  </div>
+
+</body>

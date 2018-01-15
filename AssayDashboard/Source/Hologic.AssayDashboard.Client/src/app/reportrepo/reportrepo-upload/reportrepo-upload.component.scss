@@ -1,0 +1,294 @@
+/*
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+*/
+
+#majorVersion{
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 10px;
+  width: 50px;
+}
+
+#minorVersion{
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 10px;
+  width: 50px;
+}
+
+#servicePackageNumber{
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 10px;
+  width: 50px;
+}
+
+#buildNumber{
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 10px;
+  width: 50px;
+}
+
+#systemsoftwareinnerfields{
+  display: inline-block;
+}
+
+#uploadcheckradiobutton{
+  display:inline-block;
+}
+
+#searchcheckradiobutton{
+  display:inline-block;
+}
+
+#choosetaskdiv{
+  display:inline-block;
+}
+
+.containerdivheader{
+  display: inline-block;
+}
+
+.browsebutton{
+  float: left;
+}
+
+.uploadfilebutton{
+  float:right;
+  padding:10px;
+}
+
+#choosefilebutton{
+  float:right;
+}
+
+#downloadfilebutton{
+  display:inline-block;
+  margin-right: 80px;
+}
+
+.last-element {
+  padding: 0px;
+  width: 1%;
+}
+
+.close-inpt {
+  height: 20px;  
+  width: 20px; 
+}
+
+#yesButtonChoice{
+  display:inline-block;
+}
+
+#noButtonChoice{
+  display:inline-block;
+}
+
+#upload-photo{
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+ }
+
+label{
+  cursor: pointer;
+  padding: 8px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 12px;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-info ,.btn-lg {
+  background-color: 	#1E88E5;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+.uploaddiv{
+  padding:20px;
+  margin-top:-50px;
+  position: relative;
+  top: 70px; 
+}
+
+#uploadheader{
+  text-align: center;
+  font-family: "Times New Roman";
+  size: 20px;
+}
+
+#assaySelect {
+  display:inline-block;
+  font-family: "Open Sans";
+  font-size: 16px;
+  width:auto;
+}
+    
+#reportSelect{
+  display:inline-block;
+  font-family: "Open Sans";
+  font-size: 16px;
+  width:auto;
+}
+
+.container{
+  float:left;
+  height:500px;
+  overflow: auto
+}
+
+// modals scss
+.modal-header-success {
+  color:#fff;
+  padding:9px 15px;
+  border-bottom:1px solid #eee;
+  background-color: #5cb85c;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.modal-header-warning {
+  color:#fff;
+  padding:9px 15px;
+  border-bottom:1px solid #eee;
+  background-color: #f0ad4e;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+    
+.modal-header-danger {
+  color:#fff;
+  padding:9px 15px;
+  border-bottom:1px solid #eee;
+  background-color: #d9534f;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.modal-header-info {
+  color:#fff;
+  padding:9px 15px;
+  border-bottom:1px solid #eee;
+  background-color: #5bc0de;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.modal-header-primary {
+  color:#fff;
+  padding:9px 15px;
+  border-bottom:1px solid #eee;
+  background-color: #428bca;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+//table responsiveness
+.wrap-scroll {
+  max-height:70vh;  
+  overflow-y: auto;
+
+thead, tbody > tr {
+  width: 100%;
+  table-layout: fixed;
+}
+}
+
+.responsive-table {
+  width: 100%;
+  margin: 0em auto;
+  margin-bottom: .5em; 
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  table-layout: auto;
+
+tr:nth-of-type(odd) {
+  background-color: #F8FbFF;
+}
+
+th, td {
+  padding: .7em;
+  white-space: nowrap;
+}
+
+th {
+  font-size: 16px;
+  background: #1E88E5;
+  color: white;
+  border: 1px solid #ddd;
+  padding: .5em;
+}
+
+tr {
+  border: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #D9F2FF;
+}
+
+  @media (max-width: 1000px) {
+    border: 0;
+    thead {
+      display: none;
+    }
+
+    td {
+      padding: .5em;
+      display: block;
+      text-align: right;
+      border-bottom: 1px solid #ddd;
+      width:100%;
+
+      &:before {
+        content: attr(date-title);
+        float: left;
+        font-weight: 700;
+      }
+      
+      &:last-child {
+        border: 0;
+      }
+    }
+
+    tr {
+      padding: 4px;
+      margin: 0 0 15px 0;
+      display: block;
+      border-radius: 4px;
+      > td:nth-of-type(9) {
+        font-size: 14px;
+        color: #DF2B2B;
+      }
+    }
+  }
+}
+

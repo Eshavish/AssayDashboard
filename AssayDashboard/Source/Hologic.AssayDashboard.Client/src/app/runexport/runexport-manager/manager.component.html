@@ -1,0 +1,134 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<ngx-loading [show]="loading" [config]="{ backdropBackgroundColour: 'rgba(255,255,255,0.5)', 
+        backdropBorderRadius: '50px', primaryColour: '#090585', secondaryColour: '#090585',
+         tertiaryColour: '#090585' }"></ngx-loading>
+  <nav class="main-menu">
+    <ul>
+      <li>
+        <a [routerLink]="['/dashboard']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/homeicon.png" />
+          </i>
+          <span class="nav-text">
+              Dashboard
+          </span>
+        </a> 
+      </li>
+      <li class="has-subnav">
+        <a [routerLink]="['/runexport-home']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/uploadicon.png" />
+          </i>
+          <span class="nav-text">
+            Assay Viewer
+          </span>
+        </a>
+      </li>
+      <li class="has-subnav">
+        <a [routerLinkActive]="['active']" [routerLink]="['/RunManager']">
+          <i class="fa fa-2x">   
+            <input type="image" class="icon" src="../../assets/listicon_white.png" />
+          </i>
+          <span class="nav-text">
+            File Manager
+          </span>
+        </a> 
+      </li>
+    </ul>
+    <ul class="logout">
+      <li>
+        <a>
+          <i class="fa fa-2x"></i>
+          <span class="nav-text">Logout</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+<div class="main-container">
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <a class="navbar-brand" style="color: #337ab7"><h4><b>File Manager</b></h4></a>
+      <ul class="navbar-nav mr-auto"> </ul>
+      <input class="form-control mr-sm-2"  style="width: 20%" type="text" [(ngModel)]='listFilter' placeholder="Search...">
+      <form class="form-inline my-2 my-lg-0">
+        <label class="custom-file-upload">Add File
+          <input id="input-upload" type="file" (change)="changeListener($event)" multiple/>
+      </label>
+      </form>
+  </nav>
+
+<div class="wrap-table">
+  <div class="wrap-scroll">
+  <table class="responsive-table" *ngIf="files && files.length; else emptyList">
+    <thead>
+      <tr class="table-head">
+        <th>File Name</th>
+        <th>Assay Name</th>
+        <th>Assay ID</th>
+        <th>RunId</th>
+        <th>SerialNumber</th>
+        <th>CRC</th>
+        <th>Action</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let file of filteredFiles; let i = index' (dblclick)="viewRun(i)">
+        <td date-title="File Name">{{ file.FileName | slice:0:20}}</td>
+        <td date-title="Assay Name">{{ file.AssayName }}</td>
+        <td date-title="Type ID">{{ file.AssayType }}</td>
+        <td date-title="RunId">{{ file.RunId }}</td>
+        <td date-title="SerialNumber">{{ file.SerialNumber }}</td>
+        <td date-title="CRC" *ngIf="file.calculatedCrc === file.objectCrc; else invalid">
+          <span class="badge badge-success">Valid</span>
+        </td>
+        <td date-title="View">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-info" [routerLink]="['/run', i]">View</button>
+          </div>
+        </td>
+        <td date-title="Delete" class="last-element">
+          <input type="image" class="close-inpt" (click)="deleteItem(i)" src="../../assets/delete-xxl.png" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+  <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#myModal" *ngIf="files && files.length">Delete Files</button>
+
+  <ng-template #invalid>
+    <td date-title="CRC">
+      <span class="badge badge-danger">Invalid</span>
+    </td>
+  </ng-template>
+  <ng-template #emptyList>
+    <div class="emptyList">
+      <div class="centered">
+        <img id="upload-img" src="../../assets/empty.png" width="70%" height="auto" class="img-fluid" alt="Upload files">
+        <br>
+        <div class="centered-text"> No run files have been loaded</div>
+      </div>
+    </div>
+  </ng-template>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h4>Warning</h4>
+          Delete all saved files?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No, cancel</button>
+          <button type="button" class="btn btn-outline-danger" (click)='deleteAllFiles()' data-dismiss="modal">Yes, delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

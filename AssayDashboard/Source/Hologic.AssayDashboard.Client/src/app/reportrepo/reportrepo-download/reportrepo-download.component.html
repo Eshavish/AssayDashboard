@@ -1,0 +1,158 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+
+<div class="downloaddiv">
+  <div class="inner-div">
+    <h4 id='downloadheader' style="padding:20px;">SEARCH / DOWNLOAD </h4>
+
+    <div class='holder-div-download-options'>
+
+      <div class='checkboxes'>
+        <h4 style='font-family: "Open Sans"; font-size:16px;'>Filter By: </h4>
+        <br>
+        <input type="checkbox" [checked]="setCheckOnReport" (change)="setCheckOnReport = !setCheckOnReport" name="reportTypeCheckbox"
+          (click)="reportTypeClicked()" value="reportTypeCheckbox">&nbsp;&nbsp;&nbsp;Report Type &nbsp;&nbsp;&nbsp;
+        <input type="checkbox" [checked]="setCheckOnAssay" (change)="setCheckOnAssay = !setCheckOnAssay" name="asaayNameCheckbox"
+          (click)="assayNameClicked()" value="asaayNameCheckbox">&nbsp;&nbsp;&nbsp;Assay Name &nbsp;&nbsp;&nbsp;
+        <input type="checkbox" [checked]="setCheckOnSSV" (change)="setCheckOnSSV = !setCheckOnSSV" name="systemSoftwareVersion" (click)="ssvClicked()"
+          value="systemSoftwareVersion">&nbsp;&nbsp;&nbsp;System Software Version
+        <br>
+        <br>
+      </div>
+      <br>
+
+      <div class="inner-option-container">
+        <!-- Report Types-->
+        <div *ngIf="reportSelectedCheck" class="form-group row">
+          <label for="inputEmail3" class="col-sm-2 col-form-label" data-toggle="tooltip" data-placement="left" title="Enter report type for search">Report Type</label>
+          <div class="col-sm-10">
+            <select id='reportSelect' #select [(ngModel)]="saveChosenReportDownload" name='reportTypeList' class='form-control'>
+              <option *ngFor="let report of reportOptionsDownload" [value]="report" (onClick)="saveChosenReport=report">
+                {{report}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!--Assay Name-->
+        <div *ngIf="assayNameSelectedCheck" class="form-group row">
+          <label for="inputPassword3" style='float:left' class="col-sm-2 col-form-label" data-toggle="tooltip" data-placement="left"
+            title="Enter assay name for search">Assay Name</label>
+          <div class="col-sm-10">
+            <select id='assaySelect' #select [(ngModel)]="saveChosenAssayDownload" name='assayNameList' class='form-control' (change)='onChange()'>
+              <option *ngFor="let option of testAssayTodisplayDownload" [value]="option" (onClick)="saveChosenAssayDownload=option">
+                {{option}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- System Software Version Number-->
+        <div *ngIf="ssvSelectedeCheck" class="container-ssv">
+          <label for="inputPassword3" data-toggle="tooltip" data-placement="left" title="Enter major, minor, service or build number for search">System Software Version</label>&nbsp;&nbsp;&nbsp;
+          <div class='fields' id='systemsoftwareinnerfields'>
+            <input type='text' (keypress)="_keyPressMajor($event)" [(ngModel)]='majorVersionNumber' name='majorVersionNumber' style='width:30px'
+              class='majorVersion' id='majorVersion' maxlength='3' placeholder='*'>.
+            <input type='text' (keypress)="_keyPressMinor($event)" [(ngModel)]='minorVersionNumber' name='minorVersionNumber' style='width:30px'
+              class='minorVersion' id='minorVersion' maxlength='3' placeholder='*'>.
+            <input type='text' (keypress)="_keyPressService($event)" [(ngModel)]='servicePackNumber' name='servicePackNumber' style='width:30px'
+              class='servicePackageNumber' id='servicePackageNumber' maxlength='3' placeholder='*'>.
+            <input type='text' [(ngModel)]='buildNumber' name='buildNumber' style='width:30px' class='buildNumber' id='buildNumber' maxlength='3'
+              placeholder='*'>
+          </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div id="buttons" class="buttons">
+          <button id="view" [disabled]="!isValidForm()" type="submit" class="btn btn-primary" (click)='getFiles()'>Search</button>&nbsp;&nbsp;&nbsp;
+          <button *ngIf="showTable" [disabled]="!filesPresent()" data-toggle="tooltip" data-placement="left" title="Download All Files" id="downloadAll" class="btn btn-primary"
+            (click)='downloadAll()'>Download All
+          </button>&nbsp;&nbsp;&nbsp;
+          <button data-toggle="tooltip" [disabled]="!filesPresent()" data-placement="left" title="Reset values" id="reset" class="btn btn-primary" (click)='clearFields()'>Reset
+          </button>
+        </div>
+        
+        <div class="container-searchRestore">
+          <div *ngIf="chosenReport" class="searchRestore"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Report Chosen:</b> {{chosenReport}}</div>
+          <div *ngIf="chosenAssay" class="searchRestore"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>Assay Chosen: </b>{{chosenAssay}}</div>
+          <div *ngIf="chosenMajor" class="searchRestore"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b> MajorVersion: </b>{{chosenMajor}}</div>
+          <div *ngIf="chosenMinor" class="searchRestore"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>MinorVersion: </b>{{chosenMinor}}</div>
+          <div *ngIf="chosenService" class="searchRestore"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>ServicePack: </b>{{chosenService}}</div>
+          <div *ngIf="chosenBuild" class="searchRestore"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <b>BuildNumber:</b> {{chosenBuild}}</div>
+        </div>
+
+      </div>
+      <br>
+
+      <!--table-->
+
+      <div class="container" *ngIf="showTable">
+
+        <table class="fixed_headers table table-hover table-bordered table-striped table-custom table responsive-table" id="table">
+          <thead>
+            <tr>
+              <th>File Name</th>
+              <th>
+                <span class="required"></span>Assay Type</th>
+              <th>
+                <span class="required"></span>Report Type</th>
+              <th>
+                <span class="required"></span>System Software Version</th>
+              <th width="10%">View / Download</th>
+
+            </tr>
+          </thead>
+          <tbody class="scroll">
+
+            <tr *ngFor="let file of fileName; let i=index">
+              <td date-title="File Name" width="15%">{{file | slice:0:30}}  </td>
+              <!-- Assay Type -->
+              <td date-title="Assay Type" width="15%">
+                <div class="btn-group">
+                  <div class="form-group row">
+                    <div class="col-sm-10">
+                      {{assayNameToDisplay[i]}}
+                    </div>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Report Type -->
+              <td date-title="Report Type" width="15%">
+                <div class="btn-group">
+                  <div class="form-group row">
+                    <div class="col-sm-10">
+                      {{reportTypeToDisplay[i]}}
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <!-- System Software Version -->
+              <td date-title="System Software Version" style="width: 15%">
+                {{majorVersionNumberDisplay[i]}}.{{minorVersionNumberDisplay[i]}}.{{serviceNumberDisplay[i]}}.{{buildNumberDisplay[i]}}
+              </td>
+
+              <!-- View/Download files -->
+              <td class="last-element" date-title="Delete File">
+                <a id='viewArea' (click)='viewFiles(i)'>
+                  <u> View </u>
+                </a> &nbsp; &nbsp;&nbsp;
+                <a id='downloadArea' (click)='downloadFiles(file,i)'>
+                  <u> Download</u>
+                </a>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

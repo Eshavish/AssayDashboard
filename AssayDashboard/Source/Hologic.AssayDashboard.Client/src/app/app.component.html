@@ -1,0 +1,22 @@
+<!--
+// ----------------------------------------------------------------
+// Copyright (c) 2017 Hologic, Inc.  All Rights Reserved.
+// ----------------------------------------------------------------
+-->
+<nav class="navbar navbar-toggleable-md navbar-light" style="background-color: #272B68;">
+  <div class="container Logo ">
+    <a class="navbar-brand logo">
+      <img routerLink="/dashboard" style="outline: 0;" id="nav-img" src="assets/hologiclogo.png" width="190" alt="Hologic Inc.">
+       {{title}}
+  </a>
+  </div>
+<div routerLink="/about" id="nav-bar-about"><a><h6><u>About</u></h6></a>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+    </div>
+  </div>
+</nav>
+<div style="margin-top:5em;">
+  <router-outlet></router-outlet>
+</div>
